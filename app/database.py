@@ -1,9 +1,9 @@
 from typing import List, Optional, Dict
 
 inventory: List[Dict] = [
-    {"id": 1, "name": "Wrench", "quantity": 10, "price": 250.00},
-    {"id": 2, "name": "Screwdriver", "quantity": 25, "price": 150.00},
-    {"id": 3, "name": "Hammer", "quantity": 8, "price": 400.00},
+    {"id": 1, "name": "Apples", "quantity": 20, "price": 2.50},
+    {"id": 2, "name": "Milk", "quantity": 10, "price": 1.80},
+    {"id": 3, "name": "Bread", "quantity": 8, "price": 3.20},
 ]
 
 
