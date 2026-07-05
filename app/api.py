@@ -1,4 +1,3 @@
-# OpenFoodFacts helpers - minimal comments
 from typing import Optional, Dict, Any
 import requests
 
