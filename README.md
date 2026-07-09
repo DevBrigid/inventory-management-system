@@ -23,8 +23,19 @@ python3 main.py
 
 ## Run CLI
 
+From the project root, you can run the inventory commands directly:
+
 ```bash
-python3 -m app.cli list
+inventory-cli list
+inventory-cli add --name "Cheese" --quantity 4 --price 5.5
+inventory-cli update 1 --name "Apples" --quantity 30
+inventory-cli delete 1
+```
+
+If you want to run it explicitly with Python, use:
+
+```bash
+python3 cli.py list
 ```
 
 The API listens on port `5555` by default.

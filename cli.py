@@ -1,7 +1,11 @@
+#!/usr/bin/env python3
 import argparse
-import requests
+import os
+import sys
 
-from app.database import list_items, create_item, update_item, delete_item
+sys.path.insert(0, os.path.dirname(__file__))
+
+from app.database import create_item, delete_item, list_items, update_item
 from app.api import enrich_item_with_off
 
 

@@ -1,3 +1,7 @@
+import os
+import subprocess
+import sys
+import tempfile
 import unittest
 
 from app import database
@@ -28,6 +32,44 @@ class DatabaseTests(unittest.TestCase):
         deleted = database.delete_item(3)
         self.assertTrue(deleted)
         self.assertIsNone(database.find_item(3))
+
+    def test_inventory_persists_across_processes(self):
+        with tempfile.NamedTemporaryFile("w+", suffix=".json", delete=False) as handle:
+            temp_path = handle.name
+
+        try:
+            env = os.environ.copy()
+            env["INVENTORY_DB_PATH"] = temp_path
+            first = subprocess.run(
+                [
+                    sys.executable,
+                    "-c",
+                    "from app import database; database.create_item({'name': 'Cheese', 'quantity': 2, 'price': 4.5})",
+                ],
+                cwd=os.path.dirname(os.path.dirname(__file__)),
+                env=env,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            self.assertEqual(first.returncode, 0, msg=first.stderr)
+
+            second = subprocess.run(
+                [
+                    sys.executable,
+                    "-c",
+                    "from app import database; print(len(database.list_items()))",
+                ],
+                cwd=os.path.dirname(os.path.dirname(__file__)),
+                env=env,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            self.assertEqual(second.stdout.strip(), "3")
+        finally:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
 
 
 if __name__ == "__main__":
